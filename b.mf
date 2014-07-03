@@ -1,0 +1,101 @@
+%% sample metafont glyph file %% 
+
+%% glyph ID and dimensions :
+
+beginfontchar(148, 5.74, 0, 0 );
+
+%% point coordinates :
+
+Apx1l := 1.0u ; Apy1l := 2.2u ;
+Apx2l := 2.3u ; Apy2l := 2.8u ;
+Apx3l := 4.0u ; Apy3l := 2.5u ;
+Apx4l := 5.0u ; Apy4l := 1.5u ;
+
+Apx4r := 4.0u ; Apy4r := 0.5u ;
+Apx3r := 3.3u ; Apy3r := 1.2u ;
+Apx2r := 2.0u ; Apy2r := 1.5u ;
+Apx1r := 1.0u ; Apy1r := 1.0u ;
+
+%% mid points :
+
+.5(Apx1l + Apx1r) = x1A;
+.5(Apy1l + Apy1r) = y1A;
+.5(Apx2l + Apx2r) = x2A;
+.5(Apy2l + Apy2r) = y2A;
+.5(Apx3l + Apx3r) = x3A;
+.5(Apy3l + Apy3r) = y3A;
+.5(Apx4l + Apx4r) = x4A;
+.5(Apy4l + Apy4r) = y4A;
+
+%% extra points :
+
+Apx1l = x1Al; Apy1l = y1Al;
+Apx1r = x1Ar; Apy1r = y1Ar;
+Apx2l = x2Al; Apy2l = y2Al;
+Apx2r = x2Ar; Apy2r = y2Ar;
+Apx3l = x3Al; Apy3l = y3Al;
+Apx3r = x3Ar; Apy3r = y3Ar;
+Apx4l = x4Al; Apy4l = y4Al;
+Apx4r = x4Ar; Apy4r = y4Ar;
+
+%% pen widhts : 
+
+dist1A := length (z1Al-z1Ar);
+dist2A := length (z2Al-z2Ar);
+dist3A := length (z3Al-z3Ar);
+dist4A := length (z4Al-z4Ar);
+
+%% pen angles :
+
+ang1 := angle (z1Ar - z1Al);
+ang2 := angle (z2Ar - z2Al);
+ang3 := angle (z3Ar - z3Al);
+ang4 := angle (z4Ar - z4Al);
+
+%% pen positions :
+
+penpos1 (dist1A + A_px + A_skeleton/50 * dist1A, ang1);
+penpos2 (dist2A + A_px + A_skeleton/50 * dist2A, ang2);
+penpos3 (dist3A + A_px + A_skeleton/50 * dist3A, ang3);
+penpos4 (dist4A + A_px + A_skeleton/50 * dist4A, ang4);
+
+%% center (z) points :
+
+z1=(A_width * x1A, y1A);
+z2=(A_width * x2A, y2A);
+z3=(A_width * x3A, y3A);
+z4=(A_width * x4A, y4A);
+
+%% post angle :
+
+postangle1 := angle (z2Ar - z1Ar);
+postangle2 := angle (z4Ar - z3Ar);
+postangle3 := angle (z3Al - z4Al);
+postangle4 := angle (z1Al - z2Al);
+
+%% control points from source :
+
+posthobbyR := posttension 0 of (z1r .. controls z2r and z3r .. z4r);
+prehobbyR := pretension 1 of (z1r .. controls z2r and z3r .. z4r);
+posthobbyL := posttension 0 of (z4l .. controls z3l and z2l .. z1l);
+prehobbyL := pretension 1 of (z4l .. controls z3l and z2l .. z1l);
+
+%% fill method :
+
+fill z1r {dir postangle1} .. tension posthobbyR and prehobbyR .. {dir postangle2} z4r -- z4l {dir postangle3} .. tension posthobbyL and prehobbyL ..  {dir postangle4} z1l -- cycle;
+ 
+%% penstroke method :
+
+penstroke z1e{dir postangle1} .. tension posthobbyR and prehobbyR .. {dir postangle2} z4e;
+
+%% draw method (this needs a predefined pen, see definitions.mf):
+
+draw z1e{dir postangle1} .. tension posthobbyR and prehobbyR .. {dir postangle2} z4e;
+
+
+
+%% pen labels on mf proofs
+
+penlabels(range 1 thru 99);
+
+endchar;

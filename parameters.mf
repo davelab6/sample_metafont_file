@@ -1,0 +1,10 @@
+%% first file to be called by mpost
+
+%% global parameter file, add new parameters here. For dimensional numbers use #:
+
+font_size:=10.000pt#;
+A_px#:=0.01pt#;
+
+input definitions.mf
+
+bye

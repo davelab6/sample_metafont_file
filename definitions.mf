@@ -1,0 +1,72 @@
+vardef posttension expr t of p = 
+    save q; path q;
+    q = point t of p {direction t of p} .. {direction t + 1 of p} point t + 1 of p; 
+    length(postcontrol 0 of q - point 0 of q)
+        /length(postcontrol t of p - point t of p) enddef; 
+
+vardef pretension expr t of p =
+    save q; path q;
+    q = point t - 1 of p {direction t - 1 of p} .. {direction t of p} point t of p; 
+    length(precontrol 1 of q - point 1 of q)
+        /length(precontrol t of p - point t of p) enddef;
+
+
+% define tracing to command line output or log :
+
+def loggingall =                
+%  tracingcommands:=3; 
+%  tracingedges:=2; 
+%  tracingtitles:=1;
+%  tracingequations:=1;
+%  tracingcapsules:=1; 
+%  tracingspecs:=1;
+%  tracingpens:=1; 
+%  tracingchoices:=1; 
+%  tracingstats:=1;
+  tracingoutput:=1; 
+%  tracingmacros:=1; 
+%  tracingrestores:=1;
+  enddef;
+
+% turns on every form of tracing :
+
+def tracingall =                
+  tracingonline:=1; 
+  showstopping:=1; 
+  loggingall 
+  enddef;
+
+tracingall
+
+
+% py and px relation :
+
+A_py#:=A_px#;
+
+% initiate output mode :
+
+%mode=localfont;
+mode=luxo;
+mode_setup;
+
+% pixel conversions into real points :
+
+% metafont needs these definitions to translate the real dimensions of the parameter values. For every new parameter add them here :
+
+define_pixels(A_px,A_py,B_px,B_py,C_px,C_py,D_px,D_py,A_skeleton,B_skeleton,C_skeleton,D_skeleton);
+define_good_y_pixels(mean,cap,asc,desc,box,base,capu,baseu,meanu);
+
+% definition of glyph header :
+
+def beginfontchar(expr code, unit_width, h, d) =
+beginchar(code,unit_width*u#,h,d);
+pickup font_pen;
+enddef;
+
+% fixed pen :
+pickup pencircle xscaled px yscaled py rotated 15;
+font_pen:=savepen;
+
+% input glyphs :
+
+input b.mf
